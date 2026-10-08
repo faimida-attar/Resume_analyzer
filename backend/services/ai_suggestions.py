@@ -32,8 +32,30 @@ def generate_ai_suggestions(
 
     # Optional LLM integration hook (handles errors gracefully)
     try:
-        # LLM integration logic can be invoked here if package & key are available.
-        # For security and zero external lock-in, we preserve rule_suggestions as primary guarantee.
+        from google import genai
+        client = genai.Client(api_key=api_key)
+        
+        prompt = f"""
+        You are an expert ATS (Applicant Tracking System) resume reviewer and technical recruiter. 
+        Please review the following resume text against the job description and give exactly 3 concise, highly actionable bullet points on how the candidate can improve their resume specifically for this role.
+        
+        Job Description: {job_description}
+        
+        Resume: {resume_text}
+        """
+        
+        response = client.models.generate_content(
+            model='gemini-2.5-flash',
+            contents=prompt,
+        )
+        
+        llm_feedback = response.text.strip()
+        
+        # Append the AI feedback to our rule-based suggestions
+        if llm_feedback:
+            rule_suggestions.insert(0, f"🤖 **AI Review:**\n{llm_feedback}")
+            
         return rule_suggestions
-    except Exception:
+    except Exception as e:
+        print(f"LLM Error: {e}")
         return rule_suggestions

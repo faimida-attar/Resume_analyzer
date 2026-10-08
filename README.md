@@ -54,8 +54,29 @@ docker-compose up --build -d
 - **Backend API:** [http://localhost:5000](http://localhost:5000)
 - **MongoDB Database:** Accessible locally at `mongodb://localhost:27018/resume_analyzer` (Compass).
 
+## ☁️ How to Deploy to Render
+
+This project is configured for extremely easy deployment using Render's free tier. 
+
+### 1. Deploy the Backend
+1. Create a new account on [Render](https://render.com/).
+2. Click **New +** and select **Web Service**.
+3. Connect your GitHub repository.
+4. Set the **Root Directory** to `backend`.
+5. Render will automatically detect the `Dockerfile` and build the Python API.
+6. Under **Environment**, add your `.env` variables (like `FLASK_SECRET_KEY`, `JWT_SECRET_KEY`, and a cloud `MONGO_URI` from MongoDB Atlas).
+
+### 2. Deploy the Frontend
+1. Back on the Render Dashboard, click **New +** and select **Static Site**.
+2. Connect the same GitHub repository.
+3. Set the **Root Directory** to `frontend`.
+4. Set the **Build Command** to `npm run build`.
+5. Set the **Publish directory** to `dist`.
+6. Add an Environment Variable named `VITE_API_URL` and set its value to your live backend URL (e.g., `https://your-backend.onrender.com/api`).
+7. Click **Create Static Site**.
+
 ## 🛑 Stopping the Application
-To safely shut down the containers without losing your database data:
+To safely shut down the local Docker containers without losing your database data:
 ```bash
 docker-compose down
 ```

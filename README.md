@@ -75,6 +75,42 @@ This project is configured for extremely easy deployment using Render's free tie
 6. Add an Environment Variable named `VITE_API_URL` and set its value to your live backend URL (e.g., `https://your-backend.onrender.com/api`).
 7. Click **Create Static Site**.
 
+## 🐳 Docker Guide & Commands
+
+This project uses Docker to create isolated environments for both the frontend and backend. Here are the core commands used to manage the images and containers:
+
+### 1. Build and Run Everything (Most Common)
+```bash
+docker-compose up --build
+```
+* **What it does:** Reads the `docker-compose.yml` file, builds custom images for the React frontend and Python backend, starts the MongoDB database, and runs all containers in a connected network.*
+
+### 2. Stop and Remove Containers
+```bash
+docker-compose down
+```
+* **What it does:** Safely stops all running containers and removes the virtual network. Your database data is preserved in a Docker volume.*
+
+### 3. Build a Specific Image Manually
+If you want to manually build just the backend image:
+```bash
+cd backend
+docker build -t resume-analyzer-backend .
+```
+* **What it does:** Reads the `Dockerfile` inside the backend folder and creates a reusable image named `resume-analyzer-backend`.*
+
+### 4. Run a Specific Container Manually
+```bash
+docker run -p 5000:5000 resume-analyzer-backend
+```
+* **What it does:** Starts a container using the image you just built and maps it to port 5000 on your local machine.*
+
+### 5. View Live Logs
+```bash
+docker-compose logs -f
+```
+* **What it does:** Streams the live console output from all running containers, which is highly useful for debugging.*
+
 ## 🛑 Stopping the Application
 To safely shut down the local Docker containers without losing your database data:
 ```bash

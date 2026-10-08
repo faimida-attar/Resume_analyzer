@@ -33,7 +33,3 @@ def extract_text_from_pdf(file_path):
         )
 
     return full_text
-
-path = r'C:\Users\FAIMIDA\OneDrive\Desktop\Lihatech\Resume_analyzer\backend\sample_resume.pdf'
-text = extract_text_from_pdf(path)
-print(text)
